@@ -6,3 +6,6 @@ const axiosInstance = axios.create({
     api_key: process.env.REACT_APP_MOVIEDB_API_KEY,
   },
 });
+
+export const discover = async (params: any = {}) =>
+  axiosInstance.get('/discover/movie', { params });
