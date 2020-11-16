@@ -22,6 +22,7 @@ const Main = styled.div<{ background?: string }>`
 const Content = styled.div`
   width: 100%;
   display: flex;
+  margin-top: 8rem;
   align-items: center;
   justify-content: center;
 `;

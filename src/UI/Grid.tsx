@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getPoster } from '../util';
+import { getPoster, useModal } from '../util';
+import Modal from './DetailViewModal';
 
 const AbsoluteLabel = styled.h1`
   top: -5%;
@@ -29,6 +30,7 @@ const GridContainer = styled.div`
 const GridElement = styled.div<{ poster: string }>`
   height: 140px;
   flex: 1 0 24%;
+  cursor: pointer;
   background: gray;
   background-size: cover;
   background-repeat: no-repeat;
@@ -71,6 +73,8 @@ interface Props {
 }
 
 function Grid({ movies, hoverOver }: Props) {
+  const [currentMovie, setCurrentMovie] = React.useState<any>({});
+  const { isVisible, toggle } = useModal();
   let timeout: any = undefined;
 
   const handleHoverOver = (el: any) => {
@@ -83,6 +87,11 @@ function Grid({ movies, hoverOver }: Props) {
     }, 1000);
   };
 
+  const handleClick = (el: any) => {
+    setCurrentMovie(el);
+    toggle();
+  };
+
   return (
     <>
       <AbsoluteLabel>Popular</AbsoluteLabel>
@@ -92,6 +101,7 @@ function Grid({ movies, hoverOver }: Props) {
             key={idx}
             poster={getPoster(el.backdrop_path, '500')}
             onMouseEnter={() => handleHoverOver(el)}
+            onClick={() => handleClick(el)}
           >
             <InnerGridElement className="inner-element">
               <MovieTitle>{el.title}</MovieTitle>
@@ -100,6 +110,8 @@ function Grid({ movies, hoverOver }: Props) {
           </GridElement>
         ))}
       </GridContainer>
+
+      <Modal close={toggle} isVisible={isVisible} data={currentMovie} />
     </>
   );
 }
