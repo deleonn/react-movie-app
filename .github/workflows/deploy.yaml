@@ -29,5 +29,5 @@ jobs:
         node ./.github/scripts/deploy.js
       env:
         CI: false
-        REACT_APP_MOVIEDB_API_KEY: ${{secrets.apiUrl}}
+        REACT_APP_MOVIEDB_API_KEY: ${{secrets.apiKey}}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
