@@ -73,10 +73,6 @@ const ListElement = styled.div`
   cursor: pointer;
   min-height: 200px;
   max-height: 200px;
-
-  &:hover {
-    opacity: 0.8;
-  }
 `;
 
 const Image = styled.div<{ background: string }>`
