@@ -20,6 +20,7 @@ const Backdrop = styled.div`
   justify-content: flex-start;
   background: rgba(0, 0, 0, 0.7);
   animation: fadeIn 220ms ease-in-out;
+  overflow-y: hidden;
 
   @keyframes fadeIn {
     from {
@@ -73,6 +74,18 @@ const ListElement = styled.div`
   cursor: pointer;
   min-height: 200px;
   max-height: 200px;
+
+  @media (max-width: 1850px) {
+    flex: 0 1 32%;
+  }
+
+  @media (max-width: 1300px) {
+    flex: 0 1 48%;
+  }
+
+  @media (max-width: 900px) {
+    flex: 1 1 100%;
+  }
 `;
 
 const Image = styled.div<{ background: string }>`
