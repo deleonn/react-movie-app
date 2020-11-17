@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchIcon from 'react-ionicons/lib/MdSearch';
 import CancelIcon from 'react-ionicons/lib/MdClose';
+import { useModal, search } from '../util';
+import Modal from './SearchModal';
 
 const Container = styled.div<{ isSearching: boolean }>`
   opacity: ${(props) => (props.isSearching ? 1 : 0.6)};
@@ -35,7 +37,20 @@ const Input = styled.input`
 `;
 
 function Search() {
+  const { isVisible, setVisibility } = useModal();
   const [isSearching, setIsSearching] = React.useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
+  const [movies, setMovies] = React.useState<any>([]);
+
+  let timeout: any = '';
+
+  React.useEffect(() => {
+    if (searchQuery) {
+      setVisibility(true);
+    } else {
+      setVisibility(false);
+    }
+  }, [searchQuery]);
 
   const handleSearch = () => {
     setIsSearching(true);
@@ -43,6 +58,33 @@ function Search() {
 
   const cancelSearch = () => {
     setIsSearching(false);
+    setSearchQuery('');
+  };
+
+  const handleSearchInput = (e: any) => {
+    const value = e.currentTarget.value;
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(() => {
+      setSearchQuery(value);
+      fetchMovies(value);
+    }, 500);
+  };
+
+  const fetchMovies = async (value: string) => {
+    if (value) {
+      const params = {
+        sort_by: 'popularity.desc',
+        page: 1,
+        language: 'en-US',
+        query: value,
+      };
+
+      const request = await search(params);
+      setMovies(request.data.results);
+    }
   };
 
   return (
@@ -65,10 +107,19 @@ function Search() {
               style={{ cursor: 'pointer' }}
               onClick={cancelSearch}
             />
-            <Input placeholder="Start typing to search..." />
+            <Input
+              placeholder="Start typing to search..."
+              onChange={(e) => handleSearchInput(e)}
+            />
           </>
         )}
       </Container>
+
+      <Modal
+        isVisible={isVisible}
+        close={() => setVisibility(false)}
+        data={movies}
+      />
     </>
   );
 }

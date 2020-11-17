@@ -11,4 +11,4 @@ export const discover = async (params: any = {}) =>
   axiosInstance.get('/discover/movie', { params });
 
 export const search = async (params: any = {}) =>
-  axiosInstance.get('search/search-movies', { params });
+  axiosInstance.get('/search/movie', { params });

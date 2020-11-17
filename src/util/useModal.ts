@@ -7,9 +7,14 @@ function useModal() {
     setIsVisible(!isVisible);
   };
 
+  const setVisibility = (value: boolean) => {
+    setIsVisible(value);
+  };
+
   return {
     isVisible,
     toggle,
+    setVisibility,
   };
 }
 
